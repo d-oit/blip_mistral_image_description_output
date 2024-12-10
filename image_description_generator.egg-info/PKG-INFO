@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: image-description-generator
+Version: 0.1.0
+Requires-Dist: streamlit
+Requires-Dist: transformers
+Requires-Dist: mistralai
+Requires-Dist: Pillow
+Requires-Dist: deepl
+Requires-Dist: pyperclip

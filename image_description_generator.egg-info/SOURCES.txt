@@ -1,0 +1,16 @@
+README.md
+setup.py
+image_description_generator.egg-info/PKG-INFO
+image_description_generator.egg-info/SOURCES.txt
+image_description_generator.egg-info/dependency_links.txt
+image_description_generator.egg-info/entry_points.txt
+image_description_generator.egg-info/requires.txt
+image_description_generator.egg-info/top_level.txt
+src/__init__.py
+src/image_description.py
+src/utils/__init__.py
+src/utils/image_utils.py
+src/utils/translation.py
+tests/__init__.py
+tests/test_image_description.py
+tests/test_utils.py

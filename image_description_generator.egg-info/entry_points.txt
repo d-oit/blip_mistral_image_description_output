@@ -1,0 +1,2 @@
+[console_scripts]
+image-description-generator = src.image_description:main

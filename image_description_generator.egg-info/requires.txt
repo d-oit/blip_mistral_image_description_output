@@ -1,0 +1,6 @@
+streamlit
+transformers
+mistralai
+Pillow
+deepl
+pyperclip
