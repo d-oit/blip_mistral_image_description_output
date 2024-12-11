@@ -1,0 +1,11 @@
+{
+    "filename": "IMG_20241117_154927.jpg",
+    "blip_caption": "A plastic container with food in it",
+    "mistral_description": "The image displays a clear plastic container filled with various types of cookies. There are multiple rows of cookies, each with distinct appearances. Some cookies are rectangular and appear to be topped with sliced almonds, while others are more irregularly shaped and seem to be chocolate cookies. The cookies are neatly arranged, and the container is placed on a dark surface.",
+    "processing_times": {
+        "image_load": 0.0,
+        "blip_processing": 2.3581955432891846,
+        "mistral_processing": 7.235033273696899
+    },
+    "total_processing_time": 9.593228816986084
+}

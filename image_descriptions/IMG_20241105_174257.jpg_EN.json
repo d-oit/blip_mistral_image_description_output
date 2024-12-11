@@ -1,0 +1,11 @@
+{
+    "filename": "IMG_20241105_174257.jpg",
+    "blip_caption": "A city at night",
+    "mistral_description": "The image depicts a serene nighttime view of a town or city. The sky is transitioning from dusk to night, with a gradient of blue hues blending into darker tones. The town is illuminated with various lights from houses and buildings, creating a warm and cozy atmosphere. The buildings are closely packed, and some have lights on, indicating that people are inside. In the background, there's a darker silhouette of trees and possibly hills, adding depth to the scene. The overall mood of the image is calm and peaceful, capturing the quiet beauty of a town at night.",
+    "processing_times": {
+        "image_load": 0.0,
+        "blip_processing": 3.066586494445801,
+        "mistral_processing": 41.563992738723755
+    },
+    "total_processing_time": 44.630579233169556
+}
