@@ -70,15 +70,11 @@ class ImageDescriptionApp:
     def describe_image(self, image_path: str, language: str) -> Dict[str, Any]:
         start_time = time.time()
         processing_times = {}
-        cache_key = f"{os.path.basename(image_path)}_{language}.json"
-        cache_file = f"image_descriptions/{cache_key}"
 
-        if os.path.exists(cache_file):
-            try:
-                with open(cache_file, 'r') as f:
-                    return json.load(f)
-            except (json.JSONDecodeError, FileNotFoundError) as e:
-                self.logger.warning(f"Error loading cached description for {image_path}: {e}. Regenerating.")
+        # Check if the description is already in the approved images cache
+        for img in self.approved_images:
+            if img["filename"] == os.path.basename(image_path) and img["language"] == language:
+                return img
 
         try:
             # Image loading
@@ -122,15 +118,12 @@ class ImageDescriptionApp:
 
             result = {
                 "filename": os.path.basename(image_path),
+                "language": language,
                 "blip_caption": blip_caption.capitalize(),
                 "mistral_description": mistral_description,
                 "processing_times": processing_times,
                 "total_processing_time": total_time
             }
-
-            os.makedirs("image_descriptions", exist_ok=True)
-            with open(cache_file, 'w') as f:
-                json.dump(result, f, indent=4)
 
             return result
 
@@ -195,19 +188,6 @@ class ImageDescriptionApp:
         except Exception as e:
             self.logger.error(f"Error saving approved images: {e}")
 
-    def delete_cache_file(self, cache_key: str):
-        cache_file = f"image_descriptions/{cache_key}"
-        if os.path.exists(cache_file):
-            try:
-                os.remove(cache_file)
-                self.logger.info(f"Cache file {cache_file} deleted successfully.")
-                st.success(f"Cache file {cache_file} deleted successfully.")
-            except Exception as e:
-                self.logger.error(f"Error deleting cache file {cache_file}: {e}")
-                st.error(f"Error deleting cache file {cache_file}: {e}")
-        else:
-            st.warning(f"Cache file {cache_file} does not exist.")
-
     def run(self):
         # Render sidebar
         self.render_sidebar()
@@ -216,11 +196,19 @@ class ImageDescriptionApp:
         st.title("🖼️ Image Description Generator")
 
         # Folder and language selection
-        folder_path = st.text_input("Enter the path to the image folder:")
+        if 'folder_path' not in st.session_state:
+            st.session_state.folder_path = ""
+        folder_path = st.text_input("Enter the path to the image folder:", value=st.session_state.folder_path)
+        st.session_state.folder_path = folder_path
+
+        if 'target_lang' not in st.session_state:
+            st.session_state.target_lang = list(self.config.target_languages.keys())[0]
         target_lang = st.selectbox(
             "Select translation language:",
-            list(self.config.target_languages.keys())
+            list(self.config.target_languages.keys()),
+            index=list(self.config.target_languages.keys()).index(st.session_state.target_lang)
         )
+        st.session_state.target_lang = target_lang
 
         # Process images
         if folder_path and os.path.isdir(folder_path):
@@ -245,10 +233,12 @@ class ImageDescriptionApp:
                         st.write("Mistral Description:", description['mistral_description'])
 
                         # Display processing times
-                        st.write("Processing Times:")
-                        for step, time_taken in description['processing_times'].items():
-                            st.write(f"- {step.replace('_', ' ').title()}: {time_taken:.4f} seconds")
-                        st.write(f"Total Processing Time: {description['total_processing_time']:.4f} seconds")
+                        if description and 'processing_times' in description:
+                            if len(description['processing_times']) > 0:
+                                st.write("Processing Times:")
+                                for step, time_taken in description['processing_times'].items():
+                                    st.write(f"- {step.replace('_', ' ').title()}: {time_taken:.4f} seconds")
+                                st.write(f"Total Processing Time: {description['total_processing_time']:.4f} seconds")
 
                         # Translate if needed
                         if target_lang != 'English':
@@ -267,8 +257,9 @@ class ImageDescriptionApp:
                         # Store processed image info
                         processed_image_info = {
                             "filename": description['filename'],
-                            "original_caption": description['blip_caption'],
-                            "original_description": description['mistral_description'],
+                            "language": description['language'],  # Include the language key
+                            "blip_caption": description['blip_caption'],
+                            "mistral_description": description['mistral_description'],
                             "translated_caption": translated_caption if target_lang != 'English' else None,
                             "translated_description": translated_description if target_lang != 'English' else None,
                         }
@@ -277,17 +268,16 @@ class ImageDescriptionApp:
                     # Approval mechanism
                     approved = st.checkbox(f"Approve {image_file}?", key=image_file, value=True)
                     if approved:
-                        self.approved_images.append(processed_image_info)
-                        self.save_approved_images()
-                        st.success(f"{image_file} approved!")
+                        if processed_image_info not in self.approved_images:
+                            self.approved_images.append(processed_image_info)
+                            self.save_approved_images()
+                            st.success(f"{image_file} approved!")
                     else:
-                        st.warning(f"{image_file} not approved.")
+                        if processed_image_info in self.approved_images:
+                            self.approved_images.remove(processed_image_info)
+                            self.save_approved_images()
+                            st.warning(f"{image_file} not approved.")
                     st.markdown("---")
-
-                    # Delete cache file button
-                    cache_key = f"{os.path.basename(image_file)}_{self.config.target_languages[target_lang]}.json"
-                    if st.button(f"Delete Cache for {image_file}", key=f"delete_cache_{image_file}"):
-                        self.delete_cache_file(cache_key)
 
                 except Exception as e:
                     self.logger.error(f"Error processing {image_file}: {e}")
@@ -308,16 +298,19 @@ class ImageDescriptionApp:
             if st.button("Generate Output"):
                 output_resources = []
                 seen_filenames = set()
+                selected_language_code = self.config.target_languages[target_lang]
                 for img in self.approved_images:
-                    if "filename" in img and img["filename"] not in seen_filenames:
-                        output_resources.append({
-                            "src": img["filename"],
-                            "title": img["translated_caption"] if target_lang != 'English' else img["original_caption"],
-                            "params": {
-                                "description": img["translated_description"] if target_lang != 'English' else img["original_description"]
-                            }
-                        })
-                        seen_filenames.add(img["filename"])
+                    if img['language'] == selected_language_code:
+                        export_key = f"{img['filename']}_{img['language']}"
+                        if export_key not in seen_filenames:
+                            output_resources.append({
+                                "src": img["filename"],
+                                "title": img["translated_caption"] if target_lang != 'English' else img["blip_caption"],
+                                "params": {
+                                    "description": img["translated_description"] if target_lang != 'English' else img["mistral_description"]
+                                }
+                            })
+                            seen_filenames.add(export_key)
 
                 output_text = "resources:\n" + "\n".join([
                     f"  - src: \"{resource['src']}\"\n    title: \"{resource['title']}\"\n    params:\n      description: \"{resource['params']['description']}\""

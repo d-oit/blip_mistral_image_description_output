@@ -109,3 +109,209 @@
 2024-12-11 11:32:01,987 - INFO: Approved images saved to approved_images_cache.json
 2024-12-11 11:32:10,339 - INFO: Approved images saved to approved_images_cache.json
 2024-12-11 11:32:10,765 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 14:57:58,513 - INFO: Models loaded successfully in 13.7365 seconds
+2024-12-11 15:01:11,663 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:01:12,714 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:01:36,118 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:01:36,259 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:36,808 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:36,808 - INFO: Translation to ZH completed in 0.6004 seconds
+2024-12-11 15:01:36,810 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:37,065 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:37,071 - INFO: Translation to ZH completed in 0.2609 seconds
+2024-12-11 15:01:37,080 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:01:45,211 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:45,419 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:45,419 - INFO: Translation to ZH completed in 0.2081 seconds
+2024-12-11 15:01:45,423 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:45,712 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:45,714 - INFO: Translation to ZH completed in 0.2902 seconds
+2024-12-11 15:01:50,043 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:01:59,055 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:01:59,092 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:59,357 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:59,362 - INFO: Translation to ZH completed in 0.2708 seconds
+2024-12-11 15:01:59,363 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:59,623 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:01:59,627 - INFO: Translation to ZH completed in 0.2638 seconds
+2024-12-11 15:01:59,640 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:02:06,469 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:06,700 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:06,701 - INFO: Translation to ZH completed in 0.2319 seconds
+2024-12-11 15:02:06,703 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:06,970 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:06,970 - INFO: Translation to ZH completed in 0.2679 seconds
+2024-12-11 15:02:07,660 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:07,859 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:07,859 - INFO: Translation to ZH completed in 0.1989 seconds
+2024-12-11 15:02:07,860 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:08,133 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 15:02:08,133 - INFO: Translation to ZH completed in 0.2725 seconds
+2024-12-11 15:02:08,144 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:20:32,834 - INFO: Models loaded successfully in 11.2582 seconds
+2024-12-11 15:23:14,954 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:23:15,000 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:23:26,013 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:23:26,074 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:23:37,679 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:23:38,370 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:33:22,928 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:33:23,575 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:33:34,605 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:33:35,373 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:33:37,124 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:33:37,827 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:34:34,353 - INFO: Models loaded successfully in 10.6165 seconds
+2024-12-11 15:34:43,476 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:34:44,540 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:37:55,448 - ERROR: Error processing IMG_20241105_174257.jpg: 'language'
+2024-12-11 15:37:56,649 - ERROR: Error processing IMG_20241117_154927.jpg: 'language'
+2024-12-11 15:41:24,907 - INFO: Models loaded successfully in 8.6115 seconds
+2024-12-11 15:42:21,521 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:42:21,549 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:42:28,713 - ERROR: Error processing IMG_20241105_174257.jpg: 'blip_caption'
+2024-12-11 15:42:33,265 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:42:40,566 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:42:40,592 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:42:52,648 - ERROR: Error processing IMG_20241105_174257.jpg: 'blip_caption'
+2024-12-11 15:42:53,604 - ERROR: Error processing IMG_20241117_154927.jpg: 'blip_caption'
+2024-12-11 15:51:26,703 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:51:26,729 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:51:38,165 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 15:51:38,224 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 15:51:42,711 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:51:43,438 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 15:56:56,564 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:56:57,331 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 15:57:13,532 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:57:14,602 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 15:58:18,706 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:58:19,315 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 15:58:22,280 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:58:22,969 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 15:59:04,669 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 15:59:05,204 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 16:01:02,593 - INFO: Models loaded successfully in 9.8946 seconds
+2024-12-11 16:02:13,286 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 16:02:13,852 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 16:03:18,784 - ERROR: Error processing IMG_20241105_174257.jpg: 'processing_times'
+2024-12-11 16:03:19,482 - ERROR: Error processing IMG_20241117_154927.jpg: 'processing_times'
+2024-12-11 16:24:18,501 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:24:18,525 - ERROR: Error processing IMG_20241105_174257.jpg: 'dict' object has no attribute 'exists'
+2024-12-11 16:24:30,174 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:24:30,208 - ERROR: Error processing IMG_20241117_154927.jpg: 'dict' object has no attribute 'exists'
+2024-12-11 16:27:48,824 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:27:48,915 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:28:01,788 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:28:01,822 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:28:55,056 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:28:55,073 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:29:06,446 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:29:06,454 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:29:27,736 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:29:27,805 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:28,274 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:28,275 - INFO: Translation to ES completed in 0.5072 seconds
+2024-12-11 16:29:28,276 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:28,567 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:28,567 - INFO: Translation to ES completed in 0.2908 seconds
+2024-12-11 16:29:28,581 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:29:40,445 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:29:40,483 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:40,759 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:40,759 - INFO: Translation to ES completed in 0.2760 seconds
+2024-12-11 16:29:40,769 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:41,035 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:41,035 - INFO: Translation to ES completed in 0.2663 seconds
+2024-12-11 16:29:41,042 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:29:47,663 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:47,894 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:47,894 - INFO: Translation to ES completed in 0.2305 seconds
+2024-12-11 16:29:47,899 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:48,172 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:48,174 - INFO: Translation to ES completed in 0.2750 seconds
+2024-12-11 16:29:48,876 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:49,091 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:49,091 - INFO: Translation to ES completed in 0.2152 seconds
+2024-12-11 16:29:49,100 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:49,388 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:49,395 - INFO: Translation to ES completed in 0.3037 seconds
+2024-12-11 16:29:51,839 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:52,044 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:52,044 - INFO: Translation to ES completed in 0.2056 seconds
+2024-12-11 16:29:52,044 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:52,321 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:52,323 - INFO: Translation to ES completed in 0.2787 seconds
+2024-12-11 16:29:53,276 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:53,506 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:53,508 - INFO: Translation to ES completed in 0.2311 seconds
+2024-12-11 16:29:53,510 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:53,768 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:29:53,768 - INFO: Translation to ES completed in 0.2608 seconds
+2024-12-11 16:39:19,310 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:39:19,374 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:20,122 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:20,122 - INFO: Translation to ES completed in 0.7484 seconds
+2024-12-11 16:39:20,131 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:20,947 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:20,948 - INFO: Translation to ES completed in 0.8261 seconds
+2024-12-11 16:39:20,954 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:39:35,080 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:39:35,121 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:35,901 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:35,903 - INFO: Translation to ES completed in 0.7819 seconds
+2024-12-11 16:39:35,905 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:36,310 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:36,310 - INFO: Translation to ES completed in 0.4055 seconds
+2024-12-11 16:39:41,577 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:42,149 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:42,151 - INFO: Translation to ES completed in 0.5742 seconds
+2024-12-11 16:39:42,151 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:42,867 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:42,869 - INFO: Translation to ES completed in 0.7184 seconds
+2024-12-11 16:39:57,607 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:39:57,633 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:57,866 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:57,866 - INFO: Translation to ES completed in 0.2330 seconds
+2024-12-11 16:39:57,866 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:58,241 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:39:58,241 - INFO: Translation to ES completed in 0.3755 seconds
+2024-12-11 16:41:08,101 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:41:08,346 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:41:08,348 - INFO: Translation to ES completed in 0.2468 seconds
+2024-12-11 16:41:08,348 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:41:08,634 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:41:08,634 - INFO: Translation to ES completed in 0.2856 seconds
+2024-12-11 16:41:49,429 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:41:49,939 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:41:50,002 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:42:06,222 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:42:06,269 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:47:58,270 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:47:58,287 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:47:58,531 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:47:58,532 - INFO: Translation to JA completed in 0.2448 seconds
+2024-12-11 16:47:58,533 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:47:58,779 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:47:58,781 - INFO: Translation to JA completed in 0.2483 seconds
+2024-12-11 16:47:58,786 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:48:43,530 - INFO: HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2024-12-11 16:48:43,549 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:48:43,773 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:48:43,773 - INFO: Translation to JA completed in 0.2245 seconds
+2024-12-11 16:48:43,787 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:48:44,029 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:48:44,043 - INFO: Translation to JA completed in 0.2553 seconds
+2024-12-11 16:48:44,050 - INFO: Approved images saved to approved_images_cache.json
+2024-12-11 16:49:32,797 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:33,041 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:33,043 - INFO: Translation to JA completed in 0.2463 seconds
+2024-12-11 16:49:33,045 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:33,306 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:33,309 - INFO: Translation to JA completed in 0.2632 seconds
+2024-12-11 16:49:33,929 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:34,234 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:34,250 - INFO: Translation to JA completed in 0.3210 seconds
+2024-12-11 16:49:34,253 - INFO: Request to DeepL API method=POST url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:34,682 - INFO: DeepL API response status_code=200 url=https://api-free.deepl.com/v2/translate
+2024-12-11 16:49:34,682 - INFO: Translation to JA completed in 0.4287 seconds
