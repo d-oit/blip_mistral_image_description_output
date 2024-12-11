@@ -3,9 +3,9 @@ import time
 import logging
 import base64
 import json
+from io import BytesIO
 from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, asdict, field
-
 import streamlit as st
 import torch
 from PIL import Image
@@ -62,7 +62,11 @@ class ImageDescriptionApp:
     def encode_image(self, image_path: str) -> Optional[str]:
         try:
             with open(image_path, "rb") as image_file:
-                return base64.b64encode(image_file.read()).decode("utf-8")
+                image = Image.open(image_file)
+                image.thumbnail((800, 800))
+                buffered = BytesIO()
+                image.save(buffered, format="JPEG")
+                return base64.b64encode(buffered.getvalue()).decode("utf-8")
         except Exception as e:
             self.logger.error(f"Image encoding error for {image_path}: {e}")
             return None
@@ -99,7 +103,7 @@ class ImageDescriptionApp:
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "What's in this image?"},
+                        {"type": "text", "text": st.session_state.image_prompt},
                         {"type": "image_url", "image_url": f"data:image/jpeg;base64,{base64_image}"}
                     ]
                 }
@@ -145,6 +149,24 @@ class ImageDescriptionApp:
             return None
 
     def render_sidebar(self):
+        if 'folder_path' not in st.session_state:
+            st.session_state.folder_path = ""
+        if 'target_lang' not in st.session_state:
+            st.session_state.target_lang = list(self.config.target_languages.keys())[0]
+
+        folder_path = st.sidebar.text_input("Enter the path to the image folder:", value=st.session_state.folder_path)
+        st.session_state.folder_path = folder_path
+
+        target_lang = st.sidebar.selectbox(
+            "Select translation language:",
+            list(self.config.target_languages.keys()),
+            index=list(self.config.target_languages.keys()).index(st.session_state.target_lang)
+        )
+        st.session_state.target_lang = target_lang
+
+        if st.sidebar.button("▶️ Start"):
+            st.session_state.started = True
+
         st.sidebar.header("🔑 API Configuration")
         self.config.mistral_api_key = st.sidebar.text_input(
             "Mistral API Key",
@@ -192,135 +214,129 @@ class ImageDescriptionApp:
         # Render sidebar
         self.render_sidebar()
 
-        # Main app title
-        st.title("🖼️ Image Description Generator")
+        if 'started' not in st.session_state:
+            st.session_state.started = False
 
-        # Folder and language selection
-        if 'folder_path' not in st.session_state:
-            st.session_state.folder_path = ""
-        folder_path = st.text_input("Enter the path to the image folder:", value=st.session_state.folder_path)
-        st.session_state.folder_path = folder_path
+        if st.session_state.started:
+            # Main app title
+            st.title("🖼️ Image Description Generator")
 
-        if 'target_lang' not in st.session_state:
-            st.session_state.target_lang = list(self.config.target_languages.keys())[0]
-        target_lang = st.selectbox(
-            "Select translation language:",
-            list(self.config.target_languages.keys()),
-            index=list(self.config.target_languages.keys()).index(st.session_state.target_lang)
-        )
-        st.session_state.target_lang = target_lang
+            if 'image_prompt' not in st.session_state:
+                st.session_state.image_prompt = "Describe the contents of this image in vivid detail, as if a human observer is interpreting the scene. Try to include the place where the image was created and add it only if you are sure where it was created."
+            image_prompt = st.text_area("Prompt:", value=st.session_state.image_prompt)
+            st.session_state.image_prompt = image_prompt
 
-        # Process images
-        if folder_path and os.path.isdir(folder_path):
-            image_files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+            # Process images
+            if st.session_state.folder_path and os.path.isdir(st.session_state.folder_path):
+                image_files = [f for f in os.listdir(st.session_state.folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
 
-            # Reset processed images
-            self.processed_images = []
+                # Reset processed images
+                self.processed_images = []
 
-            for image_file in image_files:
-                full_path = os.path.join(folder_path, image_file)
-                try:
-                    image = Image.open(full_path)
+                for image_file in image_files:
+                    full_path = os.path.join(st.session_state.folder_path, image_file)
+                    try:
+                        image = Image.open(full_path)
 
-                    st.image(image, caption=image_file, use_container_width=True)
+                        st.image(image, caption=image_file, use_container_width=True)
 
-                    # Process image
-                    description = self.describe_image(full_path, language=self.config.target_languages[target_lang])
+                        # Process image
+                        description = self.describe_image(full_path, language=self.config.target_languages[st.session_state.target_lang])
 
-                    if description:
-                        # Display original descriptions
-                        st.write("BLIP Caption:", description['blip_caption'])
-                        st.write("Mistral Description:", description['mistral_description'])
+                        if description:
+                            # Display original descriptions
+                            st.write("BLIP Caption:", description['blip_caption'])
+                            st.write("Mistral Description:", description['mistral_description'])
 
-                        # Display processing times
-                        if description and 'processing_times' in description:
-                            if len(description['processing_times']) > 0:
-                                st.write("Processing Times:")
-                                for step, time_taken in description['processing_times'].items():
-                                    st.write(f"- {step.replace('_', ' ').title()}: {time_taken:.4f} seconds")
-                                st.write(f"Total Processing Time: {description['total_processing_time']:.4f} seconds")
+                            # Display processing times
+                            if description and 'processing_times' in description:
+                                if len(description['processing_times']) > 0:
+                                    st.write("Processing Times:")
+                                    for step, time_taken in description['processing_times'].items():
+                                        st.write(f"- {step.replace('_', ' ').title()}: {time_taken:.4f} seconds")
+                                    st.write(f"Total Processing Time: {description['total_processing_time']:.4f} seconds")
 
-                        # Translate if needed
-                        if target_lang != 'English':
-                            translated_caption = self.translate_text(
-                                description['blip_caption'],
-                                self.config.target_languages[target_lang]
-                            )
-                            translated_description = self.translate_text(
-                                description['mistral_description'],
-                                self.config.target_languages[target_lang]
-                            )
+                            # Translate if needed
+                            if st.session_state.target_lang != 'English':
+                                translated_caption = self.translate_text(
+                                    description['blip_caption'],
+                                    self.config.target_languages[st.session_state.target_lang]
+                                )
+                                translated_description = self.translate_text(
+                                    description['mistral_description'],
+                                    self.config.target_languages[st.session_state.target_lang]
+                                )
 
-                            st.write(f"Translated Caption ({target_lang}):", translated_caption)
-                            st.write(f"Translated Description ({target_lang}):", translated_description)
+                                st.write(f"Translated Caption ({st.session_state.target_lang}):", translated_caption)
+                                st.write(f"Translated Description ({st.session_state.target_lang}):", translated_description)
 
-                        # Store processed image info
-                        processed_image_info = {
-                            "filename": description['filename'],
-                            "language": description['language'],  # Include the language key
-                            "blip_caption": description['blip_caption'],
-                            "mistral_description": description['mistral_description'],
-                            "translated_caption": translated_caption if target_lang != 'English' else None,
-                            "translated_description": translated_description if target_lang != 'English' else None,
-                        }
-                        self.processed_images.append(processed_image_info)
+                            # Store processed image info
+                            processed_image_info = {
+                                "filename": description['filename'],
+                                "language": description['language'],  # Include the language key
+                                "blip_caption": description['blip_caption'],
+                                "mistral_description": description['mistral_description'],
+                                "translated_caption": translated_caption if st.session_state.target_lang != 'English' else None,
+                                "translated_description": translated_description if st.session_state.target_lang != 'English' else None,
+                            }
+                            self.processed_images.append(processed_image_info)
 
-                    # Approval mechanism
-                    approved = st.checkbox(f"Approve {image_file}?", key=image_file, value=True)
-                    if approved:
-                        if processed_image_info not in self.approved_images:
-                            self.approved_images.append(processed_image_info)
-                            self.save_approved_images()
-                            st.success(f"{image_file} approved!")
-                    else:
-                        if processed_image_info in self.approved_images:
-                            self.approved_images.remove(processed_image_info)
-                            self.save_approved_images()
-                            st.warning(f"{image_file} not approved.")
-                    st.markdown("---")
+                        # Approval mechanism
+                        approved = st.checkbox(f"Approve {image_file}?", key=image_file, value=True)
+                        if approved:
+                            if processed_image_info not in self.approved_images:
+                                self.approved_images.append(processed_image_info)
+                                self.save_approved_images()
+                                st.success(f"{image_file} approved!")
+                        else:
+                            if processed_image_info in self.approved_images:
+                                self.approved_images.remove(processed_image_info)
+                                self.save_approved_images()
+                                st.warning(f"{image_file} not approved.")
+                        st.markdown("---")
 
-                except Exception as e:
-                    self.logger.error(f"Error processing {image_file}: {e}")
-                    st.error(f"Error processing {image_file}: {e}")
+                    except Exception as e:
+                        self.logger.error(f"Error processing {image_file}: {e}")
+                        st.error(f"Error processing {image_file}: {e}")
 
-            # Output Generation Section
-            st.header("Output Format")
-            st.write("Configure the output format below:")
+                # Output Generation Section
+                st.header("Output Format")
+                st.write("Configure the output format below:")
 
-            output_config = st.text_area("Output Configuration", value="""
-                            resources:
-                            - src: "{image_file}"
-                                title: "{output_title}"
-                                params:
-                                description: "{output_description}"
-                            """)
+                output_config = st.text_area("Output Configuration", value="""
+                                    resources:
+                                    - src: "{image_file}"
+                                        title: "{output_title}"
+                                        params:
+                                        description: "{output_description}"
+                                    """)
 
-            if st.button("Generate Output"):
-                output_resources = []
-                seen_filenames = set()
-                selected_language_code = self.config.target_languages[target_lang]
-                for img in self.approved_images:
-                    if img['language'] == selected_language_code:
-                        export_key = f"{img['filename']}_{img['language']}"
-                        if export_key not in seen_filenames:
-                            output_resources.append({
-                                "src": img["filename"],
-                                "title": img["translated_caption"] if target_lang != 'English' else img["blip_caption"],
-                                "params": {
-                                    "description": img["translated_description"] if target_lang != 'English' else img["mistral_description"]
-                                }
-                            })
-                            seen_filenames.add(export_key)
+                if st.button("Generate Output"):
+                    output_resources = []
+                    seen_filenames = set()
+                    selected_language_code = self.config.target_languages[st.session_state.target_lang]
+                    for img in self.approved_images:
+                        if img['language'] == selected_language_code:
+                            export_key = f"{img['filename']}_{img['language']}"
+                            if export_key not in seen_filenames:
+                                output_resources.append({
+                                    "src": img["filename"],
+                                    "title": img["translated_caption"] if st.session_state.target_lang != 'English' else img["blip_caption"],
+                                    "params": {
+                                        "description": img["translated_description"] if st.session_state.target_lang != 'English' else img["mistral_description"]
+                                    }
+                                })
+                                seen_filenames.add(export_key)
 
-                output_text = "resources:\n" + "\n".join([
-                    f"  - src: \"{resource['src']}\"\n    title: \"{resource['title']}\"\n    params:\n      description: \"{resource['params']['description']}\""
-                    for resource in output_resources
-                ])
+                    output_text = "resources:\n" + "\n".join([
+                        f"  - src: \"{resource['src']}\"\n    title: \"{resource['title']}\"\n    params:\n      description: \"{resource['params']['description']}\""
+                        for resource in output_resources
+                    ])
 
-                st.code(output_text, language="text")
+                    st.code(output_text, language="text")
 
-        else:
-            st.warning("Please enter a valid folder path containing images.")
+            else:
+                st.warning("Please enter a valid folder path containing images.")
 
 def main():
     # Set page configuration
