@@ -4,3 +4,7 @@ venv/
 .env
 .DS_Store
 approved_images_cache.json
+node_modules/
+build/
+image_description_generator.egg-info/
+test-results/
