@@ -6,7 +6,7 @@ This project is a Streamlit application that generates image descriptions using 
 
 - Generate image descriptions using BLIP and Mistral Vision API.
 - Translate descriptions into multiple languages (currently supports English, Spanish, French, German, Italian, Japanese, and Chinese).
-- Approve and cache descriptions for future use (approved_images_cache.json).
+- Approve and cache descriptions for future use.
 - Configure and generate output in a specified format.
 
 ## Technologies Used
@@ -38,7 +38,7 @@ This project is a Streamlit application that generates image descriptions using 
     - `tests`: Contains unit tests for the application.
     - `e2e_playwright`: Contains end-to-end tests using Playwright.
     - `images`: Contains the sample image files.
-    - `translations`: Contains the translation files (en.json, de.json).
+   
 
 5.  **Running the Application:**
     ```bash
