@@ -222,7 +222,7 @@ class ImageDescriptionApp:
             st.title("🖼️ Image Description Generator")
 
             if 'image_prompt' not in st.session_state:
-                st.session_state.image_prompt = "Describe the contents of this image in vivid detail, as if a human observer is interpreting the scene. Try to include the place where the image was created and add it only if you are sure where it was created."
+                st.session_state.image_prompt = "Describe the contents of this image in vivid detail, as if a human observer is interpreting the scene. Try to include the place where the image was created and add it only if you are sure where it was created. The person on the image is me. Maximum of 170 lively words."
             image_prompt = st.text_area("Prompt:", value=st.session_state.image_prompt)
             st.session_state.image_prompt = image_prompt
 
