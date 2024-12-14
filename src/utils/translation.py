@@ -1,8 +1,12 @@
+"""
+Utility functions for text translation.
+"""
+
 import os
 from dotenv import load_dotenv
 from deepl import Translator
 
-def translate_text(text, target_lang):
+def translate_text(text: str, target_lang: str) -> str:
     """Translate text to the target language using DeepL API."""
     try:
         load_dotenv()
@@ -10,4 +14,4 @@ def translate_text(text, target_lang):
         translation = translator.translate_text(text, target_lang=target_lang)
         return translation.text
     except Exception as e:
-        raise Exception(f"Translation failed: {e}")
+        raise Exception(f"Translation failed: {e}") from e
