@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='image-description-generator',
+    name='blip-mistrall-image-description-generator',
     version='0.3.0',
     packages=find_packages(),
     install_requires=[
