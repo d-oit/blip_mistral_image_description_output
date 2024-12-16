@@ -3,6 +3,8 @@ import os
 import json
 from src.image_description import describe_image_with_mistral, generate_title_and_description, load_blip_model, load_cached_images, save_approved_images
 from unittest.mock import patch, MagicMock
+import streamlit as st
+from streamlit.testing import TestRunner
 
 class TestImageDescription(unittest.TestCase):
     def test_describe_image_with_mistral(self):
@@ -72,6 +74,34 @@ class TestImageDescription(unittest.TestCase):
             if os.path.exists(cache_file):
                 os.remove(cache_file)
 
+    def test_predefined_templates_dropdown(self):
+        runner = TestRunner()
+        with runner.create_app("src.image_description") as app:
+            app.run()
+            dropdown = app.get_widget("Select a predefined template:")
+            self.assertIsNotNone(dropdown)
+            self.assertIn("JSON", dropdown.options)
+            self.assertIn("YAML", dropdown.options)
+            self.assertIn("Plain Text", dropdown.options)
+
+    def test_output_preview_section(self):
+        runner = TestRunner()
+        with runner.create_app("src.image_description") as app:
+            app.run()
+            preview_section = app.get_widget("Output Preview")
+            self.assertIsNotNone(preview_section)
+            self.assertIn("Preview the generated output below:", preview_section.text)
+
+    def test_download_options(self):
+        runner = TestRunner()
+        with runner.create_app("src.image_description") as app:
+            app.run()
+            download_json_button = app.get_widget("Download as JSON")
+            download_yaml_button = app.get_widget("Download as YAML")
+            download_text_button = app.get_widget("Download as Text")
+            self.assertIsNotNone(download_json_button)
+            self.assertIsNotNone(download_yaml_button)
+            self.assertIsNotNone(download_text_button)
+
 if __name__ == '__main__':
     unittest.main()
-

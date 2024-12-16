@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 from transformers import BlipProcessor, BlipForConditionalGeneration
 from mistralai import Mistral
 from deepl import Translator
+import yaml
 
 @dataclass
 class AppConfig:
@@ -431,14 +432,19 @@ class ImageDescriptionApp:
                 st.header("Output Format")
                 st.write("Configure the output format below:")
 
+                predefined_templates = {
+                    "JSON": '{"image_file": "{image_file}", "title": "{output_title}", "description": "{output_description}"}',
+                    "YAML": 'image_file: "{image_file}"\ntitle: "{output_title}"\ndescription: "{output_description}"',
+                    "Plain Text": 'Image File: {image_file}\nTitle: {output_title}\nDescription: {output_description}'
+                }
+
+                selected_template = st.selectbox(
+                    "Select a predefined template:",
+                    list(predefined_templates.keys())
+                )
+
                 if 'outputConfigurationValue' not in st.session_state or not st.session_state.outputConfigurationValue:
-                    st.session_state.outputConfigurationValue = ("""
-                                    resources:
-                                    - src: "{image_file}"
-                                        title: "{output_title}"
-                                        params:
-                                        description: "{output_description}"
-                                    """)
+                    st.session_state.outputConfigurationValue = predefined_templates[selected_template]
 
                 st.session_state.outputConfigurationValue = st.text_area(
                     "Output Configuration",
@@ -465,7 +471,20 @@ class ImageDescriptionApp:
                                 # Append the replaced configuration to the output list
                                 output_resources.append(config_value)
 
-                    st.code("".join(output_resources), language="text")
+                    output_str = "\n".join(output_resources)
+                    st.code(output_str, language="text")
+
+                    # Preview section
+                    st.header("Output Preview")
+                    st.write("Preview the generated output below:")
+                    st.code(output_str, language="text")
+
+                    # Download options
+                    st.header("Download Options")
+                    st.write("Download the generated output in different formats:")
+                    st.download_button("Download as JSON", output_str, file_name="output.json")
+                    st.download_button("Download as YAML", yaml.dump(output_resources), file_name="output.yaml")
+                    st.download_button("Download as Text", output_str, file_name="output.txt")
 
             else:
                 st.warning("Please enter a valid folder path containing images.")

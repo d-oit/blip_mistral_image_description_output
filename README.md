@@ -47,7 +47,19 @@ This project is a Streamlit application that generates image descriptions using 
 
 ## Usage
 
-The Streamlit application provides a user-friendly interface for uploading images, generating descriptions, and approving them.  Detailed instructions on using the application will be available within the Streamlit app itself.
+The Streamlit application provides a user-friendly interface for uploading images, generating descriptions, and approving them. Detailed instructions on using the application will be available within the Streamlit app itself.
+
+### Selecting Predefined Templates
+
+1. In the Streamlit app, navigate to the "Output Format" section.
+2. Select a predefined template from the dropdown menu. Available templates include JSON, YAML, and Plain Text.
+3. Customize the selected template by editing the configuration string in the "Output Configuration" text area.
+
+### Previewing and Downloading the Generated Output
+
+1. After generating the output, a preview section will display the generated output before finalizing it.
+2. Make adjustments to the configuration string and see the changes reflected in real-time.
+3. Download the generated output in different formats (e.g., JSON, YAML, text) using the provided download options.
 
 ## Contributing
 
