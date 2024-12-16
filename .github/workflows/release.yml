@@ -27,6 +27,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install build semantic-release
 
+      - name: Install semantic-release
+        run: npm install -g semantic-release
+
       - name: Extract version from tag
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
@@ -53,9 +56,9 @@ jobs:
 
           ### 📦 Installation
 
-          \`\`\`bash
+          ```bash
           pip install your-package-name==${{ steps.get_version.outputs.VERSION }}
-          \`\`\`
+          ```
 
           ### ✨ What's New
 
