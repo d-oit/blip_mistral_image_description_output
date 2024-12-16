@@ -209,6 +209,9 @@ class ImageDescriptionApp:
         if st.sidebar.button("▶️ Start"):
             st.session_state.started = True
 
+        st.sidebar.header("📦 Version")
+        st.sidebar.markdown("**0.3.0**")
+
         st.sidebar.header("🔑 API Configuration")
         self.config.mistral_api_key = st.sidebar.text_input(
             "Mistral API Key",
@@ -289,8 +292,6 @@ class ImageDescriptionApp:
 
         if 'started' not in st.session_state:
             st.session_state.started = False
-        
-        
 
         if st.session_state.started:
             # Main app title
