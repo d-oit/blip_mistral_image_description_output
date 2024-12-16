@@ -1,10 +1,16 @@
 # Image Description Generator with BLIP and Mistral Vision
 
+## Version 0.3.0
+
+- Added support for additional languages in translation.
+- Improved description generation accuracy.
+- Enhanced user interface for better usability.
+
 This project is a Streamlit application that generates image descriptions using the BLIP model and Mistral Vision API. It allows users to input a folder of images, generate descriptions, translate them into different languages, and approve the descriptions.
 
 ## Features
 
-- Generate image descriptions using BLIP (model=""Salesforce/blip-image-captioning-base") and Mistral Vision (model="pixtral-12b-2409") API.
+- Generate image descriptions using BLIP (model="Salesforce/blip-image-captioning-base") and Mistral Vision (model="pixtral-12b-2409") API.
 - Translate descriptions into multiple languages (currently supports English, Spanish, French, German, Italian, Japanese, and Chinese).
 - Approve and cache descriptions for future use.
 - Configure and generate output in a specified format.
@@ -38,7 +44,6 @@ This project is a Streamlit application that generates image descriptions using 
     - `tests`: Contains unit tests for the application.
     - `e2e_playwright`: Contains end-to-end tests using Playwright.
     - `images`: Contains the sample image files.
-   
 
 5.  **Running the Application:**
     ```bash
