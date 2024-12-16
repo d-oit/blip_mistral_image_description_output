@@ -1,7 +1,7 @@
 import unittest
 import os
 import json
-from src.image_description import describe_image_with_mistral, generate_title_and_description, load_blip_model, load_cached_images, save_approved_images
+from src.image_description import describe_image_with_mistral, generate_title_and_description, load_blip_model, load_cached_images, save_approved_images, ImageDescriptionApp, AppConfig
 from unittest.mock import patch, MagicMock
 import streamlit as st
 from streamlit.testing import TestRunner
@@ -102,6 +102,30 @@ class TestImageDescription(unittest.TestCase):
             self.assertIsNotNone(download_json_button)
             self.assertIsNotNone(download_yaml_button)
             self.assertIsNotNone(download_text_button)
+
+    def test_save_and_load_custom_templates(self):
+        config = AppConfig(mistral_api_key="test_key", deepl_auth_key="test_key")
+        app = ImageDescriptionApp(config)
+
+        # Test saving a custom template
+        template_name = "Test Template"
+        template_content = '{"key": "value"}'
+        app.custom_templates = []
+        app.save_custom_templates()
+        app.custom_templates.append({"name": template_name, "template": template_content})
+        app.save_custom_templates()
+
+        # Verify the template was saved
+        saved_templates = app.load_custom_templates()
+        self.assertEqual(len(saved_templates), 1)
+        self.assertEqual(saved_templates[0]["name"], template_name)
+        self.assertEqual(saved_templates[0]["template"], template_content)
+
+        # Test loading a custom template
+        loaded_templates = app.load_custom_templates()
+        self.assertEqual(len(loaded_templates), 1)
+        self.assertEqual(loaded_templates[0]["name"], template_name)
+        self.assertEqual(loaded_templates[0]["template"], template_content)
 
 if __name__ == '__main__':
     unittest.main()
