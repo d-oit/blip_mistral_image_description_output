@@ -14,6 +14,8 @@ This project is a Streamlit application that generates image descriptions using 
 - Translate descriptions into multiple languages (currently supports English, Spanish, French, German, Italian, Japanese, and Chinese).
 - Approve and cache descriptions for future use.
 - Configure and generate output in a specified format.
+- Save and load custom templates as JSON.
+- Manage custom templates through a dedicated UI.
 
 ## Technologies Used
 
@@ -65,6 +67,13 @@ The Streamlit application provides a user-friendly interface for uploading image
 1. After generating the output, a preview section will display the generated output before finalizing it.
 2. Make adjustments to the configuration string and see the changes reflected in real-time.
 3. Download the generated output in different formats (e.g., JSON, YAML, text) using the provided download options.
+
+### Saving and Loading Custom Templates
+
+1. In the Streamlit app, navigate to the "Template Management" section in the sidebar.
+2. Enter a template name and content, then click "Save Template" to save the custom template.
+3. To load a saved template, select it from the dropdown menu and click "Load Template".
+4. To delete a saved template, select it from the dropdown menu and click "Delete Template".
 
 ## Contributing
 
