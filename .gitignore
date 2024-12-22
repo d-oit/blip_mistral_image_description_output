@@ -9,3 +9,4 @@ node_modules/
 build/
 image_description_generator.egg-info/
 test-results/
+image_description_app.log
