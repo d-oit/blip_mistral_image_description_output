@@ -16,8 +16,13 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from mistralai import Mistral
 from deepl import Translator
 import yaml
+
 import jsonschema
 from jsonschema import validate
+
+import threading
+from src.utils.image_utils import encode_image
+
 
 @dataclass
 class AppConfig:
@@ -53,7 +58,7 @@ class ImageDescriptionApp:
         )
         self.logger = logging.getLogger(__name__)
 
-    @st.cache_resource
+    @st.experimental_memo
     def load_models(_self):
         """Load the models required for image description."""
         start_time = time.time()
@@ -75,12 +80,7 @@ class ImageDescriptionApp:
     def encode_image(self, image_path: str) -> Optional[str]:
         """Encode the image to base64."""
         try:
-            with open(image_path, "rb") as image_file:
-                image = Image.open(image_file)
-                image = image.convert("RGB")
-                buffered = BytesIO()
-                image.save(buffered, format="JPEG")
-                return base64.b64encode(buffered.getvalue()).decode("utf-8")
+            return encode_image(image_path)
         except FileNotFoundError as e:
             self.logger.error(
                 "Image encoding error for %s: %s", image_path, e
@@ -169,6 +169,7 @@ class ImageDescriptionApp:
             self.logger.error("Image description error: %s", e)
             return {"filename": os.path.basename(image_path)}
 
+    @st.experimental_memo
     def translate_text(self, text: str, target_language: str) -> Optional[str]:
         """Translate text to the target language using DeepL API."""
         start_time = time.time()
@@ -262,6 +263,11 @@ class ImageDescriptionApp:
             self.logger.info("Approved images saved to %s", cache_file)
         except Exception as e:
             self.logger.error("Error saving approved images: %s", e)
+
+    def save_approved_images_threaded(self):
+        """Save approved images to the cache file using multithreading."""
+        thread = threading.Thread(target=self.save_approved_images)
+        thread.start()
 
     def check_and_delete_cache(self):
         """Check if the prompt has changed and delete the cache file if it has."""
@@ -493,14 +499,14 @@ class ImageDescriptionApp:
                                 self.approved_images.append(
                                     processed_image_info
                                 )
-                                self.save_approved_images()
+                                self.save_approved_images_threaded()
                                 st.success(f"{image_file} approved!")
                         else:
                             if processed_image_info in self.approved_images:
                                 self.approved_images.remove(
                                     processed_image_info
                                 )
-                                self.save_approved_images()
+                                self.save_approved_images_threaded()
                                 st.warning(f"{image_file} not approved.")
                         st.markdown("---")
 
