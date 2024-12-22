@@ -14,6 +14,10 @@ This project is a Streamlit application that generates image descriptions using 
 - Translate descriptions into multiple languages (currently supports English, Spanish, French, German, Italian, Japanese, and Chinese).
 - Approve and cache descriptions for future use.
 - Configure and generate output in a specified format.
+- Save and load custom templates as JSON.
+- Manage custom templates through a dedicated UI.
+- Caching mechanism to prevent redundant operations and optimize performance.
+- Multithreading for caching and saving approved images.
 
 ## Technologies Used
 
@@ -65,6 +69,34 @@ The Streamlit application provides a user-friendly interface for uploading image
 1. After generating the output, a preview section will display the generated output before finalizing it.
 2. Make adjustments to the configuration string and see the changes reflected in real-time.
 3. Download the generated output in different formats (e.g., JSON, YAML, text) using the provided download options.
+
+
+### Saving and Loading Custom Templates
+
+1. In the Streamlit app, navigate to the "Template Management" section in the sidebar.
+2. Enter a template name and content, then click "Save Template" to save the custom template.
+3. To load a saved template, select it from the dropdown menu and click "Load Template".
+4. To delete a saved template, select it from the dropdown menu and click "Delete Template".
+
+
+## Caching Mechanism and Optimizations
+
+### Caching Expensive Operations
+
+To improve performance, the application uses `st.experimental_memo` to cache expensive operations like model loading. This prevents the need to reload models every time the app reruns, significantly reducing the load time.
+
+### Caching API Clients
+
+The application uses `st.experimental_singleton` to cache API clients. This ensures that the API clients are only initialized once, reducing the overhead of creating new instances for each run.
+
+### Optimized Image Handling
+
+Images are resized and compressed before processing to reduce the amount of data being handled. This improves the performance of image processing tasks and reduces memory usage. Efficient image encoding and decoding techniques from `src/utils/image_utils.py` are utilized to minimize the overhead of handling large image files.
+
+### Multithreading for Caching and Saving Approved Images
+
+The application uses multithreading to handle the caching and saving of approved images. This is implemented in the `save_approved_images` method in `src/image_description.py`. By performing these tasks concurrently with other operations, the overall performance of the application is improved, especially when dealing with a large number of images.
+
 
 ## Contributing
 

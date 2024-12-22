@@ -17,6 +17,13 @@ from mistralai import Mistral
 from deepl import Translator
 import yaml
 
+import jsonschema
+from jsonschema import validate
+
+import threading
+from src.utils.image_utils import encode_image
+
+
 @dataclass
 class AppConfig:
     """Configuration for the Image Description App."""
@@ -37,6 +44,7 @@ class ImageDescriptionApp:
         self.processor, self.blip_model, self.mistral_client = self.load_models()
         self.load_approved_images()
         self.processed_images = []
+        self.custom_templates = self.load_custom_templates()
 
     def setup_logging(self):
         """Set up logging configuration."""
@@ -50,7 +58,7 @@ class ImageDescriptionApp:
         )
         self.logger = logging.getLogger(__name__)
 
-    @st.cache_resource
+    @st.experimental_memo
     def load_models(_self):
         """Load the models required for image description."""
         start_time = time.time()
@@ -72,12 +80,7 @@ class ImageDescriptionApp:
     def encode_image(self, image_path: str) -> Optional[str]:
         """Encode the image to base64."""
         try:
-            with open(image_path, "rb") as image_file:
-                image = Image.open(image_file)
-                image = image.convert("RGB")
-                buffered = BytesIO()
-                image.save(buffered, format="JPEG")
-                return base64.b64encode(buffered.getvalue()).decode("utf-8")
+            return encode_image(image_path)
         except FileNotFoundError as e:
             self.logger.error(
                 "Image encoding error for %s: %s", image_path, e
@@ -166,6 +169,7 @@ class ImageDescriptionApp:
             self.logger.error("Image description error: %s", e)
             return {"filename": os.path.basename(image_path)}
 
+    @st.experimental_memo
     def translate_text(self, text: str, target_language: str) -> Optional[str]:
         """Translate text to the target language using DeepL API."""
         start_time = time.time()
@@ -260,6 +264,11 @@ class ImageDescriptionApp:
         except Exception as e:
             self.logger.error("Error saving approved images: %s", e)
 
+    def save_approved_images_threaded(self):
+        """Save approved images to the cache file using multithreading."""
+        thread = threading.Thread(target=self.save_approved_images)
+        thread.start()
+
     def check_and_delete_cache(self):
         """Check if the prompt has changed and delete the cache file if it has."""
         cache_file = 'approved_images_cache.json'
@@ -285,10 +294,93 @@ class ImageDescriptionApp:
             with open(prompt_file, 'w', encoding='utf-8') as f:
                 f.write(st.session_state.image_prompt)
 
+    def load_custom_templates(self):
+        """Load custom templates from a JSON file."""
+        templates_file = 'custom_templates.json'
+        if os.path.exists(templates_file):
+            try:
+                with open(templates_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except (json.JSONDecodeError, FileNotFoundError) as e:
+                self.logger.warning(
+                    "Error loading custom templates: %s. Starting with an empty list.",
+                    e
+                )
+                return []
+        else:
+            return []
+
+    def save_custom_templates(self):
+        """Save custom templates to a JSON file."""
+        templates_file = 'custom_templates.json'
+        try:
+            with open(templates_file, 'w', encoding='utf-8') as f:
+                json.dump(self.custom_templates, f, indent=4)
+            self.logger.info("Custom templates saved to %s", templates_file)
+        except Exception as e:
+            self.logger.error("Error saving custom templates: %s", e)
+
+    def validate_template(self, template: dict) -> bool:
+        """Validate a custom template against a JSON schema."""
+        schema = {
+            "type": "object",
+            "properties": {
+                "name": {"type": "string"},
+                "template": {"type": "string"}
+            },
+            "required": ["name", "template"]
+        }
+        try:
+            validate(instance=template, schema=schema)
+            return True
+        except jsonschema.exceptions.ValidationError as e:
+            self.logger.error("Template validation error: %s", e)
+            return False
+
+    def render_template_management_ui(self):
+        """Render the UI for managing custom templates."""
+        st.sidebar.header("📝 Template Management")
+
+        template_name = st.sidebar.text_input("Template Name")
+        template_content = st.sidebar.text_area("Template Content")
+
+        if st.sidebar.button("Save Template"):
+            new_template = {"name": template_name, "template": template_content}
+            if self.validate_template(new_template):
+                self.custom_templates.append(new_template)
+                self.save_custom_templates()
+                st.sidebar.success("Template saved successfully!")
+            else:
+                st.sidebar.error("Invalid template format.")
+
+        if st.sidebar.button("Load Template"):
+            selected_template = st.sidebar.selectbox(
+                "Select a template to load:",
+                [template["name"] for template in self.custom_templates]
+            )
+            for template in self.custom_templates:
+                if template["name"] == selected_template:
+                    st.session_state.outputConfigurationValue = template["template"]
+                    st.sidebar.success("Template loaded successfully!")
+                    break
+
+        if st.sidebar.button("Delete Template"):
+            selected_template = st.sidebar.selectbox(
+                "Select a template to delete:",
+                [template["name"] for template in self.custom_templates]
+            )
+            self.custom_templates = [
+                template for template in self.custom_templates
+                if template["name"] != selected_template
+            ]
+            self.save_custom_templates()
+            st.sidebar.success("Template deleted successfully!")
+
     def run(self):
         """Run the Streamlit app."""
         # Render sidebar
         self.render_sidebar()
+        self.render_template_management_ui()
 
         if 'started' not in st.session_state:
             st.session_state.started = False
@@ -407,14 +499,14 @@ class ImageDescriptionApp:
                                 self.approved_images.append(
                                     processed_image_info
                                 )
-                                self.save_approved_images()
+                                self.save_approved_images_threaded()
                                 st.success(f"{image_file} approved!")
                         else:
                             if processed_image_info in self.approved_images:
                                 self.approved_images.remove(
                                     processed_image_info
                                 )
-                                self.save_approved_images()
+                                self.save_approved_images_threaded()
                                 st.warning(f"{image_file} not approved.")
                         st.markdown("---")
 
