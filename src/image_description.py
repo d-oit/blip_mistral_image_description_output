@@ -23,7 +23,6 @@ from jsonschema import validate
 import threading
 from src.utils.image_utils import encode_image
 
-
 @dataclass
 class AppConfig:
     """Configuration for the Image Description App."""
@@ -58,7 +57,7 @@ class ImageDescriptionApp:
         )
         self.logger = logging.getLogger(__name__)
 
-    @st.experimental_memo
+    @st.cache_resource
     def load_models(_self):
         """Load the models required for image description."""
         start_time = time.time()
@@ -169,7 +168,7 @@ class ImageDescriptionApp:
             self.logger.error("Image description error: %s", e)
             return {"filename": os.path.basename(image_path)}
 
-    @st.experimental_memo
+    @st.cache_data
     def translate_text(self, text: str, target_language: str) -> Optional[str]:
         """Translate text to the target language using DeepL API."""
         start_time = time.time()
@@ -198,7 +197,8 @@ class ImageDescriptionApp:
 
         folder_path = st.sidebar.text_input(
             "Enter the path to the image folder:",
-            value=st.session_state.folder_path
+            value=st.session_state.folder_path,
+            key="folder_path_input_unique"
         )
         st.session_state.folder_path = folder_path
 
@@ -206,26 +206,29 @@ class ImageDescriptionApp:
             "Select translation language:",
             list(self.config.target_languages.keys()),
             index=list(self.config.target_languages.keys()).index(
-                st.session_state.target_lang)
+                st.session_state.target_lang),
+            key="target_lang_selectbox_unique"
         )
         st.session_state.target_lang = target_lang
 
-        if st.sidebar.button("▶️ Start"):
+        if st.sidebar.button("▶️ Start", key="start_button_unique"):
             st.session_state.started = True
 
         st.sidebar.header("📦 Version")
-        st.sidebar.markdown("**0.3.0**")
+        st.sidebar.markdown("**0.4.0**")
 
         st.sidebar.header("🔑 API Configuration")
         self.config.mistral_api_key = st.sidebar.text_input(
             "Mistral API Key",
             value=self.config.mistral_api_key,
-            type="password"
+            type="password",
+            key="mistral_api_key_input_unique"
         )
         self.config.deepl_auth_key = st.sidebar.text_input(
             "DeepL Auth Key",
             value=self.config.deepl_auth_key,
-            type="password"
+            type="password",
+            key="deepl_auth_key_input_unique"
         )
 
         st.sidebar.header("📝 Instructions")
@@ -491,7 +494,7 @@ class ImageDescriptionApp:
                         # Approval mechanism
                         approved = st.checkbox(
                             f"Approve {image_file}?",
-                            key=image_file,
+                            key=f"approve_{image_file}_unique",
                             value=True
                         )
                         if approved:
