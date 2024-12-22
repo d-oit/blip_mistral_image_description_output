@@ -1,11 +1,5 @@
 # Image Description Generator with BLIP and Mistral Vision
 
-## Version 0.3.0
-
-- Added support for additional languages in translation.
-- Improved description generation accuracy.
-- Enhanced user interface for better usability.
-
 This project is a Streamlit application that generates image descriptions using the BLIP model and Mistral Vision API. It allows users to input a folder of images, generate descriptions, translate them into different languages, and approve the descriptions.
 
 ## Features
